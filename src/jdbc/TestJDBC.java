@@ -21,8 +21,8 @@ public class TestJDBC {
 			 for(int i = 1; i<3; i++) {
 				 String ii = String.valueOf(i);
 //				 String sql = "insert into hero values(null,"+"'Hero'" +","+333.0f+"," +50+")";
-				 String iname = "'name" +ii+"'";
-				 String sql = "insert into hero values(null," + iname +" ,+333.0 ,50)";
+				 String iname = "name" +ii;
+				 String sql = "insert into hero values(null," + "'"+iname+"'" +" ,+333.0 ,50)";
 					s.execute(sql);
 			 }
 //			String sql = "insert into hero values(null,"+"'tmoo'"+","+333.0f+",
