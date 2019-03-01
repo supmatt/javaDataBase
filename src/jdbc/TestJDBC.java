@@ -93,8 +93,10 @@ public class TestJDBC {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-		 try (Connection c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/how2java?characterEncoding=UTF-8",
-	                "root", "admin"); Statement s = c.createStatement();) {
+		list(6,3);
+	}
+//		 try (Connection c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/how2java?characterEncoding=UTF-8",
+//	                "root", "admin"); Statement s = c.createStatement();) {
 	 
 //	            String sql = "select * from hero";
 //	 
@@ -116,23 +118,29 @@ public class TestJDBC {
 //			 else
 //				 System.out.println("Id or ps was wrong");
 			 
-			 String sql = "select count(*) from hero";
-			 ResultSet rs = s.executeQuery(sql);
-			 int total = 0;
-			 while(rs.next()) {
-				 total = rs.getInt(1);//only one, the number need super than 0 and less than 2;
-			 }
-			 System.out.println("table hero have:" +total+" colone information");
+//			 String sql = "select count(*) from hero";
+//			 
+	public static void list(int start, int count) {
+		try (Connection c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/how2java?characterEncoding=UTF-8",
+                "root", "admin"); Statement s = c.createStatement();) {
+			String sql = "select * from hero limit " + start +","+count+"";
+			//add word "limit for control output information
 			 
-//	            }
-	            // 不一定要在这里关闭ReultSet，因为Statement关闭的时候，会自动关闭ResultSet
-	            // rs.close();
-	 
+			 ResultSet rs = s.executeQuery(sql);
+			 while (rs.next()) {
+	                int id = rs.getInt("id");// 可以使用字段名
+	                String name = rs.getString(2);// 也可以使用字段的顺序
+	                float hp = rs.getFloat("hp");
+	                int damage = rs.getInt(4);
+	                System.out.printf("%d\t%s\t%f\t%d%n", id, name, hp, damage);
+	            }
+			 
 	        } catch (SQLException e) {
 	            // TODO Auto-generated catch block
 	            e.printStackTrace();
 	        }
 		
 	}
+		
 }
 // Tomcat can not connect, next day continue
