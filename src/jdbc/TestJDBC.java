@@ -106,15 +106,23 @@ public class TestJDBC {
 //	                float hp = rs.getFloat("hp");
 //	                int damage = rs.getInt(4);
 //	                System.out.printf("%d\t%s\t%f\t%d%n", id, name, hp, damage);
-			 String name = "dashen";
-			 String password = "thisispassword";
-			 String sql = "select * from user where name = '"+name+"' and "
-			 		+ "password = '"+password+"'";
+//			 String name = "dashen";
+//			 String password = "thisispassword";
+//			 String sql = "select * from user where name = '"+name+"' and "
+//			 		+ "password = '"+password+"'";
+//			 ResultSet rs = s.executeQuery(sql);
+//			 if(rs.next())
+//				 System.out.println("Id and ps correct");
+//			 else
+//				 System.out.println("Id or ps was wrong");
+			 
+			 String sql = "select count(*) from hero";
 			 ResultSet rs = s.executeQuery(sql);
-			 if(rs.next())
-				 System.out.println("Id and ps correct");
-			 else
-				 System.out.println("Id or ps was wrong");
+			 int total = 0;
+			 while(rs.next()) {
+				 total = rs.getInt(1);//only one, the number need super than 0 and less than 2;
+			 }
+			 System.out.println("table hero have:" +total+" colone information");
 			 
 //	            }
 	            // 不一定要在这里关闭ReultSet，因为Statement关闭的时候，会自动关闭ResultSet
