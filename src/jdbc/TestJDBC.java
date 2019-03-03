@@ -140,20 +140,36 @@ public class TestJDBC {
 //	            // TODO Auto-generated catch block
 //	            e.printStackTrace();
 //	        }
-		String sql = "insert into hero values(null,?,?,?)";
+//		String sql = "insert into hero values(null,?,?,?)";
+//		try (Connection c = DriverManager.getConnection(
+//				"jdbc:mysql://127.0.0.1:3306/how2java?characterEncoding=UTF-8","root", "admin");
+//				PreparedStatement ps = c.prepareStatement(sql);)
+//		{
+//			ps.setString(1, "tt");
+//			ps.setFloat(2, 313.0f);
+//			ps.setInt(3, 52);
+//			ps.execute();
+//		} catch (SQLException e) {
+//			// TODO: handle exception
+//			e.printStackTrace();
+//		}
 		try (Connection c = DriverManager.getConnection(
-				"jdbc:mysql://127.0.0.1:3306/how2java?characterEncoding=UTF-8","root", "admin");
-				PreparedStatement ps = c.prepareStatement(sql);)
+				"jdbc:mysql://127.0.0.1:3306/how2java?characterEncoding=UTF-8","root", "admin"
+				);
+	            Statement s = c.createStatement();) 
 		{
-			ps.setString(1, "tt");
-			ps.setFloat(2, 313.0f);
-			ps.setInt(3, 52);
-			ps.execute();
+			String sqlInsert = "insert into Hero values (null, 'garen',616,100)";
+			String sqlDelete = "delete from hero where id =2";
+			String sqlUpdate = "update Hero set up = 300 where id = 2";
+			s.execute(sqlInsert);
+			s.execute(sqlDelete);
+			s.execute(sqlUpdate);
+			s.executeUpdate(sqlInsert);
+			s.executeUpdate(sqlDelete);
+			s.executeUpdate(sqlUpdate);
 		} catch (SQLException e) {
 			// TODO: handle exception
-			e.printStackTrace();
 		}
-		
 	}
 		
 }
