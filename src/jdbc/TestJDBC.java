@@ -157,17 +157,31 @@ public class TestJDBC {
 				"jdbc:mysql://127.0.0.1:3306/how2java?characterEncoding=UTF-8","root", "admin"
 				);
 	            Statement s = c.createStatement();) 
+//		{
+//			String sqlInsert = "insert into Hero values (null, 'garen',616,100)";
+//			String sqlDelete = "delete from hero where id =2";
+//			String sqlUpdate = "update Hero set up = 300 where id = 2";
+//			s.execute(sqlInsert);
+//			s.execute(sqlDelete);
+//			s.execute(sqlUpdate);
+//			s.executeUpdate(sqlInsert);
+//			s.executeUpdate(sqlDelete);
+//			s.executeUpdate(sqlUpdate);
+//		} 
 		{
-			String sqlInsert = "insert into Hero values (null, 'garen',616,100)";
-			String sqlDelete = "delete from hero where id =2";
-			String sqlUpdate = "update Hero set up = 300 where id = 2";
-			s.execute(sqlInsert);
-			s.execute(sqlDelete);
-			s.execute(sqlUpdate);
-			s.executeUpdate(sqlInsert);
-			s.executeUpdate(sqlDelete);
-			s.executeUpdate(sqlUpdate);
-		} catch (SQLException e) {
+			String sqlSelect = "select * from hero";
+//			s.execute(sqlSelect);
+//			ResultSet rs = s.getResultSet();
+//			while(rs.next()) {
+//				System.out.println(rs.getInt("id"));
+//			}
+			boolean isSelect = s.execute(sqlSelect);
+			System.out.println(isSelect);
+			String sqlUpdate = "update hero set hp =300 where id < 5";
+			int number = s.executeUpdate(sqlUpdate);
+			System.out.println(number);
+		}
+		catch (SQLException e) {
 			// TODO: handle exception
 		}
 	}
