@@ -1,5 +1,6 @@
 package jdbc;
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -157,7 +158,7 @@ public class TestJDBC {
 		try (Connection c = DriverManager.getConnection(
 				"jdbc:mysql://127.0.0.1:3306/how2java?characterEncoding=UTF-8","root", "admin"
 				);
-				PreparedStatement ps = c.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
+//				PreparedStatement ps = c.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
 //	            Statement s = c.createStatement();
 				) 
 //		{
@@ -183,17 +184,28 @@ public class TestJDBC {
 //			String sqlUpdate = "update hero set hp =300 where id < 5";
 //			int number = s.executeUpdate(sqlUpdate);
 //			System.out.println(number);
-			ps.setString(1, "garen");
-			ps.setFloat(2, 617);
-			ps.setInt(3, 100);
-			ps.execute();
-			ps.setString(1, "ggaren");
-			ps.execute();
-			ResultSet rs = ps.getGeneratedKeys();
-			if(rs.next()) {
-				int id = rs.getInt(1);
-				System.out.println(id);
+//			ps.setString(1, "garen");
+//			ps.setFloat(2, 617);
+//			ps.setInt(3, 100);
+//			ps.execute();
+//			ps.setString(1, "ggaren");
+//			ps.execute();
+//			ResultSet rs = ps.getGeneratedKeys();
+//			if(rs.next()) {
+//				int id = rs.getInt(1);
+//				System.out.println(id);
+//			}
+			DatabaseMetaData dbmd = c.getMetaData();
+			System.out.println("Database name:\t" + dbmd.getDatabaseProductName());
+			System.out.println("Database edition:\t" + dbmd.getDatabaseProductVersion());
+			System.out.println("Database and tabale:\t" + dbmd.getCatalogSeparator());
+			System.out.println("Drive edition:\t:" + dbmd.getDriverVersion());
+			System.out.println("Avilble database list: ");
+			ResultSet rs = dbmd.getCatalogs();
+			while(rs.next()) {
+				System.out.println("Database name:\t" + rs.getString(1));
 			}
+			
 		}
 		catch (SQLException e) {
 			// TODO: handle exception
