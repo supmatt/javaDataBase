@@ -153,10 +153,13 @@ public class TestJDBC {
 //			// TODO: handle exception
 //			e.printStackTrace();
 //		}
+		String sql = "insert into hero values(null,?,?,?)";
 		try (Connection c = DriverManager.getConnection(
 				"jdbc:mysql://127.0.0.1:3306/how2java?characterEncoding=UTF-8","root", "admin"
 				);
-	            Statement s = c.createStatement();) 
+				PreparedStatement ps = c.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
+//	            Statement s = c.createStatement();
+				) 
 //		{
 //			String sqlInsert = "insert into Hero values (null, 'garen',616,100)";
 //			String sqlDelete = "delete from hero where id =2";
@@ -169,17 +172,28 @@ public class TestJDBC {
 //			s.executeUpdate(sqlUpdate);
 //		} 
 		{
-			String sqlSelect = "select * from hero";
+//			String sqlSelect = "select * from hero";
 //			s.execute(sqlSelect);
 //			ResultSet rs = s.getResultSet();
 //			while(rs.next()) {
 //				System.out.println(rs.getInt("id"));
 //			}
-			boolean isSelect = s.execute(sqlSelect);
-			System.out.println(isSelect);
-			String sqlUpdate = "update hero set hp =300 where id < 5";
-			int number = s.executeUpdate(sqlUpdate);
-			System.out.println(number);
+//			boolean isSelect = s.execute(sqlSelect);
+//			System.out.println(isSelect);
+//			String sqlUpdate = "update hero set hp =300 where id < 5";
+//			int number = s.executeUpdate(sqlUpdate);
+//			System.out.println(number);
+			ps.setString(1, "garen");
+			ps.setFloat(2, 617);
+			ps.setInt(3, 100);
+			ps.execute();
+			ps.setString(1, "ggaren");
+			ps.execute();
+			ResultSet rs = ps.getGeneratedKeys();
+			if(rs.next()) {
+				int id = rs.getInt(1);
+				System.out.println(id);
+			}
 		}
 		catch (SQLException e) {
 			// TODO: handle exception
