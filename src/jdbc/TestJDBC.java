@@ -212,27 +212,29 @@ public class TestJDBC {
 			ps.setInt(3, 99);
 			ps.execute();
 			ResultSet rs = ps.getGeneratedKeys();
-			int nn = 0;
+			int id = 0;
 			if(rs.next()) {
-				int id = rs.getInt(1);
+				id = rs.getInt(1);
 				System.out.println(id);
-				nn = id;
+				
 			}
-			int i = 0;
-			int num = 0;
+			int num = id -1; //last one key
+			int num2 = 0;
 			
 			while(true) {
-				String check = "select * from hero where id =" + num;
+				String check = "select * from hero where id =" + num +"";
 				ResultSet rs2 = s.executeQuery(check);
 				boolean x= rs2.next();
 				if(x) {
 					
-					i-=1;
-					num = rs.getInt(1) + i;
+//					i-=1;
+//					num = rs.getInt(1) + num;
 					String sqldelet = "delete from hero where id = " + num;
 					s.execute(sqldelet);
 					System.out.println("we want delet id number :" + num);
 					break;
+				}else {
+					num -= 1;
 				}
 			}
 			
