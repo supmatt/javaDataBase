@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Scanner;
 
 public class TestJDBC {
 	public static void main(String[] args) {
@@ -234,13 +235,73 @@ public class TestJDBC {
 //					num -= 1;
 //				}
 //			}
-			
+			//----------------------
 			c.setAutoCommit(false);
-			String sql1 = "update hero set hp = hp + 1 where id = 21";
-			s.execute(sql1);
-			String sql2 = "updata hero set hp = hp - 1 where id = 21";
-			s.execute(sql2);
-			c.commit();
+			
+			
+			ResultSet rs = ps.getGeneratedKeys();
+			int id = 0;
+//			if(rs.next()) {
+//				id = rs.getInt(1);
+//				String sql1 = "update hero set hp = hp + 1 where id = 21";
+//				s.execute(sql1);
+////				String sql2 = "update hero set hp = hp - 1 where id = 34";
+////				s.execute(sql2);
+//				System.out.println("try to delet "+ id + "");
+//			}else {
+////				System.out.println("oh no");
+//			}
+			
+			while(true) {
+				System.out.println("Do you wang delete database information?(Y or N)");
+				Scanner scc = new Scanner(System.in);
+				String ans = scc.nextLine();
+				String sql1 = "update hero set hp = hp + 1 where id = 21";
+				s.execute(sql1);
+				if(ans.equals("Y")) {
+					c.commit();
+					scc.close();
+					break;
+				} else if(ans.equals("N")) {
+					System.out.println("cancel delete");
+					scc.close();
+					break;
+				} ;
+				continue;
+			}
+			//===================
+			
+//			c.setAutoCommit(false);
+//			ResultSet rs = ps.getGeneratedKeys();
+//            while (rs.next()) {
+//                int a = rs.getInt(1); // 取id
+//                System.out.println("即将删除的数据id：" + a);
+//                ps.setInt(1, a); // 放入需要删除的id进 删除SQL语句
+//                ps.execute();
+//            }
+// 
+//            while (true) { // 除非输入Y/N，否则无限判断选择
+//                System.out.println("是否删除这些数据（Y/N）:");
+//                Scanner ss = new Scanner(System.in);
+//                String ch = ss.nextLine();
+//                if (ch.length() == 1) {
+//                    if (ch.equals("Y")) {
+//                        c.commit();
+//                        System.out.println("删除成功!");
+//                        break;
+//                    } else if (ch.equals("N")) {
+//                        System.out.println("取消删除！");
+//                        break;
+//                    } else {
+//                        System.out.println("输入有误，请重新输入！");
+//                        continue;
+//                    }
+//                } else {
+//                    System.out.println("输入有误，请重新输入！");
+//                    continue;
+//                }
+//            }
+			
 			
 		}
 		catch (SQLException e) {
