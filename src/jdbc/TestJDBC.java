@@ -207,36 +207,40 @@ public class TestJDBC {
 //			while(rs.next()) {
 //				System.out.println("Database name:\t" + rs.getString(1));
 //			}
-			ps.setString(1, "new one");
-			ps.setFloat(2, 666.0f);
-			ps.setInt(3, 99);
-			ps.execute();
-			ResultSet rs = ps.getGeneratedKeys();
-			int id = 0;
-			if(rs.next()) {
-				id = rs.getInt(1);
-				System.out.println(id);
-				
-			}
-			int num = id -1; //last one key
-			int num2 = 0;
+//			ps.setString(1, "new one");
+//			ps.setFloat(2, 666.0f);
+//			ps.setInt(3, 99);
+//			ps.execute();
+//			ResultSet rs = ps.getGeneratedKeys();
+//			int id = 0;
+//			if(rs.next()) {
+//				id = rs.getInt(1);
+//				System.out.println(id);
+//				
+//			}
+//			int num = id -1; //last one key
+//			int num2 = 0;
 			
-			while(true) {
-				String check = "select * from hero where id =" + num +"";
-				ResultSet rs2 = s.executeQuery(check);
-				boolean x= rs2.next();
-				if(x) {
-					
-//					i-=1;
-//					num = rs.getInt(1) + num;
-					String sqldelet = "delete from hero where id = " + num;
-					s.execute(sqldelet);
-					System.out.println("we want delet id number :" + num);
-					break;
-				}else {
-					num -= 1;
-				}
-			}
+//			while(true) {
+//				String check = "select * from hero where id =" + num +"";
+//				ResultSet rs2 = s.executeQuery(check);
+//				boolean x= rs2.next();
+//				if(x) {
+//					String sqldelet = "delete from hero where id = " + num;
+//					s.execute(sqldelet);
+//					System.out.println("we want delet id number :" + num);
+//					break;
+//				}else {
+//					num -= 1;
+//				}
+//			}
+			
+			c.setAutoCommit(false);
+			String sql1 = "update hero set hp = hp + 1 where id = 21";
+			s.execute(sql1);
+			String sql2 = "updata hero set hp = hp - 1 where id = 21";
+			s.execute(sql2);
+			c.commit();
 			
 		}
 		catch (SQLException e) {
