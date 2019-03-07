@@ -155,11 +155,13 @@ public class TestJDBC {
 //			e.printStackTrace();
 //		}
 		String sql = "insert into hero values(null,?,?,?)";
+//		String sql2 = "delect from hero where id = ?";
 		try (Connection c = DriverManager.getConnection(
 				"jdbc:mysql://127.0.0.1:3306/how2java?characterEncoding=UTF-8","root", "admin"
 				);
-//				PreparedStatement ps = c.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
-//	            Statement s = c.createStatement();
+				PreparedStatement ps = c.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
+//				Preparedstatement ps2 = c.prepareStatement(sql2,Statement.RETURN_GENERATED_KEYS);
+	            Statement s = c.createStatement();
 				) 
 //		{
 //			String sqlInsert = "insert into Hero values (null, 'garen',616,100)";
@@ -195,15 +197,43 @@ public class TestJDBC {
 //				int id = rs.getInt(1);
 //				System.out.println(id);
 //			}
-			DatabaseMetaData dbmd = c.getMetaData();
-			System.out.println("Database name:\t" + dbmd.getDatabaseProductName());
-			System.out.println("Database edition:\t" + dbmd.getDatabaseProductVersion());
-			System.out.println("Database and tabale:\t" + dbmd.getCatalogSeparator());
-			System.out.println("Drive edition:\t:" + dbmd.getDriverVersion());
-			System.out.println("Avilble database list: ");
-			ResultSet rs = dbmd.getCatalogs();
-			while(rs.next()) {
-				System.out.println("Database name:\t" + rs.getString(1));
+//			DatabaseMetaData dbmd = c.getMetaData();
+//			System.out.println("Database name:\t" + dbmd.getDatabaseProductName());
+//			System.out.println("Database edition:\t" + dbmd.getDatabaseProductVersion());
+//			System.out.println("Database and tabale:\t" + dbmd.getCatalogSeparator());
+//			System.out.println("Drive edition:\t:" + dbmd.getDriverVersion());
+//			System.out.println("Avilble database list: ");
+//			ResultSet rs = dbmd.getCatalogs();
+//			while(rs.next()) {
+//				System.out.println("Database name:\t" + rs.getString(1));
+//			}
+			ps.setString(1, "new one");
+			ps.setFloat(2, 666.0f);
+			ps.setInt(3, 99);
+			ps.execute();
+			ResultSet rs = ps.getGeneratedKeys();
+			int nn = 0;
+			if(rs.next()) {
+				int id = rs.getInt(1);
+				System.out.println(id);
+				nn = id;
+			}
+			int i = 0;
+			int num = 0;
+			
+			while(true) {
+				String check = "select * from hero where id =" + num;
+				ResultSet rs2 = s.executeQuery(check);
+				boolean x= rs2.next();
+				if(x) {
+					
+					i-=1;
+					num = rs.getInt(1) + i;
+					String sqldelet = "delete from hero where id = " + num;
+					s.execute(sqldelet);
+					System.out.println("we want delet id number :" + num);
+					break;
+				}
 			}
 			
 		}
