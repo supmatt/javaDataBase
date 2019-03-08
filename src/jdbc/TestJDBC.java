@@ -8,8 +8,44 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
 
+import charactor.Hero;
+
 public class TestJDBC {
+	public static Hero get(int id) {
+		Hero hero = null;
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+		} catch (ClassNotFoundException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		try (Connection c = 
+				DriverManager.getConnection(
+				"jdbc:mysql://127.0.0.1:3306/how2java?characterEncoding=UTF-8","root", "admin"
+				); 
+				Statement s = c.createStatement();){
+				String sql = "select * from hero where id = " + id;
+				ResultSet rs = s.executeQuery(sql);
+				
+				if(rs.next()) {
+					hero = new Hero();
+					String name = rs.getString(2);
+					float hp = rs.getFloat("hp");
+					int damage = rs.getInt(4);
+					hero.name = name;
+					hero.hp = hp;
+					hero.damage = damage;
+					hero.id = id;
+				}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return hero;
+	}
+	
 	public static void main(String[] args) {
+		Hero h = get(22);
+		System.out.println(h.name);
 //		Connection c = null;
 //		Statement s = null;
 //		try {
@@ -91,11 +127,11 @@ public class TestJDBC {
 //	            // TODO Auto-generated catch block
 //	            e.printStackTrace();
 //	        }
-		try {
-            Class.forName("com.mysql.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+//		try {
+//            Class.forName("com.mysql.jdbc.Driver");
+//        } catch (ClassNotFoundException e) {
+//            e.printStackTrace();
+//        }
 //		list(6,3);
 //	}
 //		 try (Connection c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/how2java?characterEncoding=UTF-8",
@@ -155,15 +191,15 @@ public class TestJDBC {
 //			// TODO: handle exception
 //			e.printStackTrace();
 //		}
-		String sql = "insert into hero values(null,?,?,?)";
-//		String sql2 = "delect from hero where id = ?";
-		try (Connection c = DriverManager.getConnection(
-				"jdbc:mysql://127.0.0.1:3306/how2java?characterEncoding=UTF-8","root", "admin"
-				);
-				PreparedStatement ps = c.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
+//		String sql = "insert into hero values(null,?,?,?)";
+////		String sql2 = "delect from hero where id = ?";
+//		try (Connection c = DriverManager.getConnection(
+//				"jdbc:mysql://127.0.0.1:3306/how2java?characterEncoding=UTF-8","root", "admin"
+//				);
+//				PreparedStatement ps = c.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
 //				Preparedstatement ps2 = c.prepareStatement(sql2,Statement.RETURN_GENERATED_KEYS);
-	            Statement s = c.createStatement();
-				) 
+//	            Statement s = c.createStatement();
+//				) 
 //		{
 //			String sqlInsert = "insert into Hero values (null, 'garen',616,100)";
 //			String sqlDelete = "delete from hero where id =2";
@@ -175,7 +211,7 @@ public class TestJDBC {
 //			s.executeUpdate(sqlDelete);
 //			s.executeUpdate(sqlUpdate);
 //		} 
-		{
+//		{
 //			String sqlSelect = "select * from hero";
 //			s.execute(sqlSelect);
 //			ResultSet rs = s.getResultSet();
@@ -236,39 +272,39 @@ public class TestJDBC {
 //				}
 //			}
 			//----------------------
-			c.setAutoCommit(false);
-			
-			
-			ResultSet rs = ps.getGeneratedKeys();
-			int id = 0;
-//			if(rs.next()) {
-//				id = rs.getInt(1);
+//			c.setAutoCommit(false);
+//			
+//			
+//			ResultSet rs = ps.getGeneratedKeys();
+//			int id = 0;
+////			if(rs.next()) {
+////				id = rs.getInt(1);
+////				String sql1 = "update hero set hp = hp + 1 where id = 21";
+////				s.execute(sql1);
+//////				String sql2 = "update hero set hp = hp - 1 where id = 34";
+//////				s.execute(sql2);
+////				System.out.println("try to delet "+ id + "");
+////			}else {
+//////				System.out.println("oh no");
+////			}
+//			
+//			while(true) {
+//				System.out.println("Do you wang delete database information?(Y or N)");
+//				Scanner scc = new Scanner(System.in);
+//				String ans = scc.nextLine();
 //				String sql1 = "update hero set hp = hp + 1 where id = 21";
 //				s.execute(sql1);
-////				String sql2 = "update hero set hp = hp - 1 where id = 34";
-////				s.execute(sql2);
-//				System.out.println("try to delet "+ id + "");
-//			}else {
-////				System.out.println("oh no");
+//				if(ans.equals("Y")) {
+//					c.commit();
+//					scc.close();
+//					break;
+//				} else if(ans.equals("N")) {
+//					System.out.println("cancel delete");
+//					scc.close();
+//					break;
+//				} ;
+//				continue;
 //			}
-			
-			while(true) {
-				System.out.println("Do you wang delete database information?(Y or N)");
-				Scanner scc = new Scanner(System.in);
-				String ans = scc.nextLine();
-				String sql1 = "update hero set hp = hp + 1 where id = 21";
-				s.execute(sql1);
-				if(ans.equals("Y")) {
-					c.commit();
-					scc.close();
-					break;
-				} else if(ans.equals("N")) {
-					System.out.println("cancel delete");
-					scc.close();
-					break;
-				} ;
-				continue;
-			}
 			//===================
 			
 //			c.setAutoCommit(false);
@@ -303,10 +339,10 @@ public class TestJDBC {
 //            }
 			
 			
-		}
-		catch (SQLException e) {
-			// TODO: handle exception
-		}
+//		}
+//		catch (SQLException e) {
+//			// TODO: handle exception
+//		}
 	}
 		
 }
