@@ -51,7 +51,7 @@ public class TestJDBC {
    
     public static void main(String[] args) {
            
-        Hero h = get(22);
+        Hero h = get(21);
         System.out.println(h.name);
 		
 //		Connection c = null;
